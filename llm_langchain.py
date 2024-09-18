@@ -1,13 +1,16 @@
 import streamlit as st
-from langchain.llms import OpenAI  # or chat_models.ChatOpenAI depending on your version
+from langchain.llms import OpenAI  # Ensure you have the correct import
 
 st.title("🔗 BioChemConversation App")
 
-openai_api_key = st.sidebar.text_input("OpenAI API Key", type="password")
+# Sidebar for OpenAI API Key
+openai_api_key = st.sidebar.text_input("Enter OpenAI API Key", type="password")
 
 
 def generate_response(input_text):
+    # Ensure the API key starts with 'sk-' before proceeding
     if openai_api_key.startswith("sk-"):
+        # Initialize the model with the provided API key
         model = OpenAI(temperature=0.7, openai_api_key=openai_api_key)
         response = model.predict(input_text)
         st.info(response)
@@ -15,6 +18,7 @@ def generate_response(input_text):
         st.warning("Please enter a valid OpenAI API key!", icon="⚠")
 
 
+# Create the form inside the main section of the app
 with st.form("my_form"):
     text = st.text_area(
         "Enter text:",
